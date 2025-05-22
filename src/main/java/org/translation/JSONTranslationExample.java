@@ -48,7 +48,7 @@ public class JSONTranslationExample {
     public String getCountryNameTranslation(String countryCode, String languageCode) {
         for (int countryIndex = 0; countryIndex < jsonArray.length(); countryIndex++) {
             JSONObject country = jsonArray.getJSONObject(countryIndex);
-            if (country.getString("alpha3").equals(languageCode)) {
+            if (country.getString("alpha3").equals(countryCode)) {
                 return country.getString(languageCode);
             }
         }
