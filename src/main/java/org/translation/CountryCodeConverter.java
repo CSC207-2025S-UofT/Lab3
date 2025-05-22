@@ -15,7 +15,11 @@ import java.util.Map;
 public class CountryCodeConverter {
 
     // TODO Task: pick appropriate instance variable(s) to store the data necessary for this class
-
+    String countryName;
+    String countryThreeCode;
+    String countryTwoCode;
+    int countryCode;
+    ArrayList<tuple> countryList = new ArrayList<>();
     /**
      * Default constructor which will load the country codes from "country-codes.txt"
      * in the resources folder.
