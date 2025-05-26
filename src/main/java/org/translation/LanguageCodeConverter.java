@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 public class LanguageCodeConverter {
 
     // TODO Task: pick appropriate instance variables to store the data necessary for this class
-
+    Map<String, String> languageToCode = new HashMap<>();
     /**
      * Default constructor which will load the language codes from "language-codes.txt"
      * in the resources folder.
@@ -34,10 +35,16 @@ public class LanguageCodeConverter {
             List<String> lines = Files.readAllLines(Paths.get(getClass()
                     .getClassLoader().getResource(filename).toURI()));
 
-            // TODO Task: use lines to populate the instance variable
-            //           tip: you might find it convenient to create an iterator using lines.iterator()
+            Iterator<String> it = lines.iterator();
 
-        // TODO Checkstyle: '}' on next line should be alone on a line.
+            while (it.hasNext()) {
+                String line = it.next();
+                String[] parts = line.split("\t");
+                if (parts.length == 2) {
+                    languageToCode.put(parts[1], parts[0]);
+                }
+            }
+        // TODO Checkstyle: '}' on next line should be alone on a line. ??? confused
         } catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
@@ -50,7 +57,11 @@ public class LanguageCodeConverter {
      * @return the name of the language corresponding to the code
      */
     public String fromLanguageCode(String code) {
-        // TODO Task: update this code to use your instance variable to return the correct value
+        for (Map.Entry<String, String> entry : languageToCode.entrySet()) {
+            if (entry.getKey().equals(code)) {
+                return entry.getValue();
+            }
+        }
         return code;
     }
 
@@ -61,6 +72,11 @@ public class LanguageCodeConverter {
      */
     public String fromLanguage(String language) {
         // TODO Task: update this code to use your instance variable to return the correct value
+        for (Map.Entry<String, String> entry : languageToCode.entrySet()) {
+            if (entry.getValue().equals(language)) {
+                return entry.getKey();
+            }
+        }
         return language;
     }
 
@@ -70,6 +86,6 @@ public class LanguageCodeConverter {
      */
     public int getNumLanguages() {
         // TODO Task: update this code to use your instance variable to return the correct value
-        return 0;
+        return languageToCode.size() + 1;
     }
 }
