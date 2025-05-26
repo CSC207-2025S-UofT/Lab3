@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-// TODO CheckStyle: Wrong lexicographical order for 'java.util.HashMap' import (remove this comment once resolved)
 
 
 /**
@@ -15,7 +14,6 @@ import java.util.Objects;
  */
 public class CountryCodeConverter {
 
-    // TODO Task: pick appropriate instance variable(s) to store the data necessary for this class
     List<List<String>> countries = new ArrayList<>();
     /**
      * Default constructor which will load the country codes from "country-codes.txt"
@@ -62,7 +60,6 @@ public class CountryCodeConverter {
                 return country.get(0);
             }
         }
-        System.out.println(countries.get(0).get(0));
         return code;
     }
 
