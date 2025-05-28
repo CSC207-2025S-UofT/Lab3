@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-// TODO CheckStyle: Wrong lexicographical order for 'java.util.HashMap' import (remove this comment once resolved)
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +14,9 @@ import java.util.Map;
 public class CountryCodeConverter {
 
     // TODO Task: pick appropriate instance variable(s) to store the data necessary for this class
-
+    private Map<String, String> alpha2name;
+    private Map<String, String> alpha3name;
+    private Map<String, String> numericname;
     /**
      * Default constructor which will load the country codes from "country-codes.txt"
      * in the resources folder.
@@ -37,22 +38,49 @@ public class CountryCodeConverter {
 
             // TODO Task: use lines to populate the instance variable(s)
 
-        }
-        catch (IOException | URISyntaxException ex) {
-            throw new RuntimeException(ex);
-        }
+            alpha2name = new HashMap<>();
+            alpha3name = new HashMap<>();
+            numericname = new HashMap<>();
 
+            for (String line : lines) {
+                if (line.startsWith("Country")) continue;
+
+                String[] code = line.trim().split(" ");
+
+                if (code.length >= 4) {
+                    String country = code[0];
+                    String alpha2 = code[1];
+                    String alpha3 = code[2];
+                    String numeric = code[3];
+
+                    alpha2name.put(alpha2, country);
+                    alpha3name.put(alpha3, country);
+                    numericname.put(numeric, country);
+                }
+            catch (IOException | URISyntaxException ex){
+                    throw new RuntimeException(ex);
+                }
+
+            }
+        }
     }
 
-    /**
-     * Returns the name of the country for the given country code.
-     * @param code the 3-letter code of the country
-     * @return the name of the country corresponding to the code
-     */
-    public String fromCountryCode(String code) {
-        // TODO Task: update this code to use an instance variable to return the correct value
-        return code;
-    }
+            /**
+             * Returns the name of the country for the given country code.
+             * @param code the 3-letter code of the country
+             * @return the name of the country corresponding to the code
+             */
+            public String fromCountryCode (String code) {
+                // TODO Task: update this code to use an instance variable to return the correct value
+                if (code.length() == 2) {
+                    return alpha2name.get(code);
+                } else if (code.length() == 3) {
+                    return alpha3name.get(code);
+                } else {
+                    String error = new String("error");
+                    return error;
+                }
+            }
 
     /**
      * Returns the code of the country for the given country name.
