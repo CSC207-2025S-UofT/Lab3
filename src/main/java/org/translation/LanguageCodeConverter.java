@@ -47,7 +47,6 @@ public class LanguageCodeConverter {
             }
             } catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
-        // TODO Checkstyle: '}' on next line should be alone on a line.
         }
     }
 
