@@ -37,6 +37,9 @@ public class CountryCodeConverter {
                     .getClassLoader().getResource(filename).toURI()));
 
             // TODO Task: use lines to populate the instance variable(s)
+            // iterate through each line after the header, split the line into separate words
+            // contained in a list, and map each keyword to its corresponding value for the relevant
+            // hashmap
 
             alpha2name = new HashMap<>();
             alpha3name = new HashMap<>();
@@ -57,11 +60,11 @@ public class CountryCodeConverter {
                     alpha3name.put(alpha3, country);
                     numericname.put(numeric, country);
                 }
-            catch (IOException | URISyntaxException ex){
-                    throw new RuntimeException(ex);
-                }
-
             }
+
+        }
+        catch (IOException | URISyntaxException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -71,7 +74,10 @@ public class CountryCodeConverter {
              * @return the name of the country corresponding to the code
              */
             public String fromCountryCode (String code) {
+
                 // TODO Task: update this code to use an instance variable to return the correct value
+                // return the value of the key (country) depending on how long the key is (2 v 3)
+
                 if (code.length() == 2) {
                     return alpha2name.get(code);
                 } else if (code.length() == 3) {
@@ -89,6 +95,9 @@ public class CountryCodeConverter {
      */
     public String fromCountry(String country) {
         // TODO Task: update this code to use an instance variable to return the correct value
+        // iterate through each key and record the key being accessed. check
+        // to see if its value matches country. if yes, return the key.
+
         return country;
     }
 
