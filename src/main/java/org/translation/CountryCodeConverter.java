@@ -6,19 +6,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 /**
  * This class provides the service of converting country codes to their names.
  */
 public class CountryCodeConverter {
 
-    List<List<String>> countries = new ArrayList<>();
+    private List<List<String>> countries = new ArrayList<>();
     /**
      * Default constructor which will load the country codes from "country-codes.txt"
      * in the resources folder.
      */
+
     public CountryCodeConverter() {
         this("country-codes.txt");
     }
@@ -40,8 +39,6 @@ public class CountryCodeConverter {
                 String code = parts[3];
                 countries.add(List.of(name, parts[1], parts[2], code));
             }
-
-
         }
         catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
