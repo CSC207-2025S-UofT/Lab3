@@ -45,7 +45,7 @@ public class LanguageCodeConverter {
                     name_to_code.put(split[0], split[1]);
                 }
             }
-            } catch (IOException | URISyntaxException ex) {
+        } catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }
