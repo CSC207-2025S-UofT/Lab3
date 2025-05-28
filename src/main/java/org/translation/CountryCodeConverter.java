@@ -48,14 +48,21 @@ public class CountryCodeConverter {
             for (String line : lines) {
                 if (line.startsWith("Country")) continue;
 
-                String[] code = line.trim().split(" ");
+                String[] comp = line.trim().split("\\s++");
 
-                if (code.length >= 4) {
-                    String country = code[0];
-                    String alpha2 = code[1];
-                    String alpha3 = code[2];
-                    String numeric = code[3];
+                if (comp.length >= 4) {
+                    String alpha2 = comp[comp.length - 3];
+                    String alpha3 = comp[comp.length - 2];
+                    String numeric = comp[comp.length - 1];
 
+                    // iterate through each item until you get to code.length - 3
+                    // (full name of country received)
+                    StringBuilder countryrough = new StringBuilder();
+                    for (int c = 0; c < (comp.length - 3); c++) {
+                        countryrough.append(comp[c] + " ");
+                    }
+
+                    String country = countryrough.toString().trim();
                     alpha2name.put(alpha2, country);
                     alpha3name.put(alpha3, country);
                     numericname.put(numeric, country);
@@ -74,17 +81,12 @@ public class CountryCodeConverter {
              * @return the name of the country corresponding to the code
              */
             public String fromCountryCode (String code) {
-
                 // TODO Task: update this code to use an instance variable to return the correct value
-                // return the value of the key (country) depending on how long the key is (2 v 3)
-
-                if (code.length() == 2) {
-                    return alpha2name.get(code);
-                } else if (code.length() == 3) {
+                // return the 3-letter code of the key (country) if this country is in our map
+                if (alpha3name.containsKey(code)) {
                     return alpha3name.get(code);
                 } else {
-                    String error = new String("error");
-                    return error;
+                    return "not found";
                 }
             }
 
@@ -98,8 +100,13 @@ public class CountryCodeConverter {
         // iterate through each key and record the key being accessed. check
         // to see if its value matches country. if yes, return the key.
 
-        return country;
-    }
+        for (String alpha3: alpha3name.keySet()) {
+            if (alpha3name.get(alpha3).equals(country)) {
+                return alpha3;
+            }
+        }
+        return "not found";
+        }
 
     /**
      * Returns how many countries are included in this code converter.
@@ -107,6 +114,6 @@ public class CountryCodeConverter {
      */
     public int getNumCountries() {
         // TODO Task: update this code to use an instance variable to return the correct value
-        return 0;
-    }
+        return alpha2name.size();
+        }
 }
