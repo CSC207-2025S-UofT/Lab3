@@ -21,10 +21,11 @@ public class InLabByHandTranslator implements Translator {
      * @param country the country
      * @return list of language abbreviations which are available for this country
      */
+    private final String canstring = "can";
+
     @Override
     public List<String> getCountryLanguages(String country) {
-        // TODO Checkstyle: The String "can" appears 4 times in the file.
-        if ("can".equals(country)) {
+        if (canstring.equals(country)) {
             return new ArrayList<>(List.of("de", "en", "zh"));
         }
         return new ArrayList<>();
@@ -41,7 +42,7 @@ public class InLabByHandTranslator implements Translator {
      */
     @Override
     public List<String> getCountries() {
-        return new ArrayList<>(List.of("can"));
+        return new ArrayList<>(List.of(canstring));
     }
 
     /**
@@ -53,22 +54,25 @@ public class InLabByHandTranslator implements Translator {
      */
     @Override
     public String translate(String country, String language) {
-        // TODO Checkstyle: Return count is 5 (max allowed for non-void methods/ lambdas is 2).
-        // TODO Checkstyle: String literal expressions should be on the left side of an equals comparison
-        if (!country.equals("can")) {
-            return null;
+        String none = "None";
+        String translation = none;
+        if ("de".equals(language)) {
+            translation = "Kanada";
         }
-        if (language.equals("de")) {
-            return "Kanada";
-        }
-        else if (language.equals("en")) {
-            return "Canada";
+        else if ("en".equals(language)) {
+            translation = "Canada";
         }
         else if ("zh".equals(language)) {
-            return "加拿大";
+            translation = "加拿大";
+        }
+        if (!canstring.equals(country)) {
+            translation = none;
+        }
+        if (none.equals(translation)) {
+            return null;
         }
         else {
-            return null;
+            return translation;
         }
     }
 }
