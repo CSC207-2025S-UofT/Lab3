@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,11 +15,14 @@ import java.util.Map;
 public class LanguageCodeConverter {
 
     // TODO Task: pick appropriate instance variables to store the data necessary for this class
-
+    private final Map<String, String> codeToLanguage = new HashMap<>();
+    private final Map<String, String> languageToCode = new HashMap<>();
+    private int numlanguages;
     /**
      * Default constructor which will load the language codes from "language-codes.txt"
      * in the resources folder.
      */
+
     public LanguageCodeConverter() {
         this("language-codes.txt");
     }
@@ -34,11 +38,29 @@ public class LanguageCodeConverter {
             List<String> lines = Files.readAllLines(Paths.get(getClass()
                     .getClassLoader().getResource(filename).toURI()));
 
-            // TODO Task: use lines to populate the instance variable
+            // TO DO Task: use lines to populate the instance variable
             //           tip: you might find it convenient to create an iterator using lines.iterator()
+            Iterator<String> iter = lines.iterator();
 
-        // TODO Checkstyle: '}' on next line should be alone on a line.
-        } catch (IOException | URISyntaxException ex) {
+            if (iter.hasNext()) {
+                iter.next();
+            }
+
+            while (iter.hasNext()) {
+                String line = iter.next();
+                String[] parts = line.split("\t");
+
+                if (parts.length >= 2) {
+                    String languageName = parts[0].strip();
+                    String code = parts[1].strip();
+
+                    codeToLanguage.put(code, languageName);
+                    languageToCode.put(languageName.toLowerCase(), code);
+                }
+            }
+            numlanguages = codeToLanguage.size();
+        }
+        catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
 
