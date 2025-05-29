@@ -19,6 +19,7 @@ public class JSONTranslator implements Translator {
 
     // TODO Task: pick appropriate instance variables for this class
     private final HashMap<String, HashMap<String, String>> translationsMap = new HashMap<>();
+
     /**
      * Constructs a JSONTranslator using data from the sample.json resources file.
      */
@@ -29,6 +30,7 @@ public class JSONTranslator implements Translator {
 
     /**
      * Constructs a JSONTranslator populated using data from the specified resources file.
+     *
      * @param filename the name of the file in resources to load the data from
      * @throws RuntimeException if the resource file can't be loaded properly
      */
@@ -55,8 +57,7 @@ public class JSONTranslator implements Translator {
                 translationsMap.put(countryCode, translations);
             }
 
-        }
-        catch (IOException | URISyntaxException ex) {
+        } catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -65,7 +66,7 @@ public class JSONTranslator implements Translator {
     public List<String> getCountryLanguages(String country) {
         // TODO Task: return an appropriate list of language codes,
         //            but make sure there is no aliasing to a mutable object
-        if (translationsMap.isEmpty()) {
+        if (translationsMap.get(country) == null) {
             return new ArrayList<>();
         }
         return new ArrayList<>(translationsMap.get(country).keySet());
