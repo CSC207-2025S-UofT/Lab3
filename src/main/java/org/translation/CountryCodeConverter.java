@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +47,14 @@ public class CountryCodeConverter {
             numericname = new HashMap<>();
 
             for (String line : lines) {
-                if (line.startsWith("Country")) continue;
+                if (line.startsWith("Country")) {
+                    continue;
+                }
 
-                String[] comp = line.trim().split("\\s++");
+                String[] comp = line.split("\\t");
+                for (int i = 0; i < comp.length; i++) {
+                    comp[i] = comp[i].trim();
+                }
 
                 if (comp.length >= 4) {
                     String alpha2 = comp[comp.length - 3];
@@ -63,32 +69,32 @@ public class CountryCodeConverter {
                     }
 
                     String country = countryrough.toString().trim();
-                    alpha2name.put(alpha2, country);
-                    alpha3name.put(alpha3, country);
+                    alpha2name.put(alpha2.toLowerCase(), country);
+                    alpha3name.put(alpha3.toLowerCase(), country);
                     numericname.put(numeric, country);
                 }
             }
-
         }
         catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-            /**
-             * Returns the name of the country for the given country code.
-             * @param code the 3-letter code of the country
-             * @return the name of the country corresponding to the code
-             */
-            public String fromCountryCode (String code) {
-                // TODO Task: update this code to use an instance variable to return the correct value
-                // return the 3-letter code of the key (country) if this country is in our map
-                if (alpha3name.containsKey(code)) {
-                    return alpha3name.get(code);
-                } else {
-                    return "not found";
-                }
-            }
+    /**
+     * Returns the name of the country for the given country code.
+     * @param code the 3-letter code of the country
+     * @return the name of the country corresponding to the code
+     */
+    public String fromCountryCode(String code) {
+        // TODO Task: update this code to use an instance variable to return the correct value
+        // return the 3-letter code of the key (country) if this country is in our map
+        if (alpha3name.containsKey(code)) {
+            return alpha3name.get(code);
+        }
+        else {
+            return "not found";
+        }
+    }
 
     /**
      * Returns the code of the country for the given country name.

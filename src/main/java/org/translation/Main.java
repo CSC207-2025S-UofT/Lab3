@@ -65,10 +65,11 @@ public class Main {
             //            convert it back to its 2-letter language code when calling translate.
             //            Note: you should use the actual names in the message printed below though,
             //            since the user will see the displayed message.
-            System.out.println(country + " in " + language + " is " + translator.translate(countryCode, languageCode));
-            System.out.println("Press enter to continue or quit to exit.");
+            System.out.print((country.trim() + " in " + language.trim() + " is "
+                    + translator.translate(countryCode, languageCode).trim()).trim() + "\n");
+            System.out.print("Press enter to continue or quit to exit.".trim());
             Scanner s = new Scanner(System.in);
-            String textTyped = s.nextLine();
+            String textTyped = s.nextLine().trim();
 
             if (QUIT.equals(textTyped)) {
                 break;
@@ -94,13 +95,13 @@ public class Main {
         Collections.sort(fullCountries);
 
         for (String country : fullCountries) {
-            System.out.println(country);
+            System.out.print(country.trim() + "\n");
         }
 
-        System.out.println("select a country from above:");
+        System.out.print("select a country from above:\n");
 
         Scanner s = new Scanner(System.in);
-        return s.nextLine();
+        return s.nextLine().trim();
 
     }
 
@@ -127,9 +128,9 @@ public class Main {
         for (String language : fullLanguages) {
             System.out.println(language);
         }
-        System.out.println("select a language from above:");
+        System.out.print("select a language from above:\n");
 
         Scanner s = new Scanner(System.in);
-        return s.nextLine();
+        return s.nextLine().trim();
     }
 }
