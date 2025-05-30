@@ -73,7 +73,7 @@ public class LanguageCodeConverter {
      */
     public String fromLanguageCode(String code) {
         // TODO Task: update this code to use your instance variable to return the correct value
-        return code;
+        return codeToLanguage.getOrDefault(code, "Unknown Language");
     }
 
     /**
@@ -83,7 +83,7 @@ public class LanguageCodeConverter {
      */
     public String fromLanguage(String language) {
         // TODO Task: update this code to use your instance variable to return the correct value
-        return language;
+        return languageToCode.getOrDefault(language.toLowerCase(), "Unknown Code");
     }
 
     /**
@@ -92,6 +92,6 @@ public class LanguageCodeConverter {
      */
     public int getNumLanguages() {
         // TODO Task: update this code to use your instance variable to return the correct value
-        return 0;
+        return numlanguages;
     }
 }

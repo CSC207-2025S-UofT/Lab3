@@ -44,15 +44,15 @@ public class CountryCodeConverter {
             while (i < lines.size()) {
                 String[] parts = lines.get(i).split("\t");
                 if (parts.length >= COUNTRYCODETEXTLINELENGTH) {
-                    String countryName = parts[0].strip();
-                    String alpha3 = parts[2].strip();
+                    String countryName = parts[0].trim();
+                    String alpha3 = parts[2].trim();
 
                     codeToCountry.put(alpha3, countryName);
                     countryToCode.put(countryName.toLowerCase(), alpha3);
                     i += 1;
                 }
             }
-            int numcountries = i - 1;
+            this.numcountries = codeToCountry.size();
         }
         catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
@@ -67,8 +67,7 @@ public class CountryCodeConverter {
      */
     public String fromCountryCode(String code) {
         // TO DO Task: update this code to use an instance variable to return the correct value
-        String country = codeToCountry.get(code);
-        return country;
+        return codeToCountry.get(code.toUpperCase());
     }
 
     /**

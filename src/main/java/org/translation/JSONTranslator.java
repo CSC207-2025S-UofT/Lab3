@@ -88,14 +88,12 @@ public class JSONTranslator implements Translator {
     @Override
     public String translate(String country, String language) {
         // TO DO Task: complete this method using your instance variables as needed
-        String alpha3Code = countryCodeConverter.fromCountry(country);
-        String languageCode = languageCodeConverter.fromLanguage(language);
-
         for (org.json.JSONObject obj : countryTranslations) {
-            if (obj.getString("alpha3").equalsIgnoreCase(alpha3Code)) {
-                return obj.getString(languageCode);
+            if (obj.getString("alpha3").equalsIgnoreCase(country)) {
+                return obj.optString(language, "Translation not available");
             }
         }
-        return null;
+        return "Country not found";
+
     }
 }
