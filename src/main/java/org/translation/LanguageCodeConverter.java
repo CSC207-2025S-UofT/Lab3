@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * This class provides the service of converting language codes to their names.
  */
 public class LanguageCodeConverter {
 
-    // TODO Task: pick appropriate instance variables to store the data necessary for this class
+    // pick appropriate instance variables to store the data necessary for this class
+    private final JSONArray jsonArray;
 
     /**
      * Default constructor which will load the language codes from "language-codes.txt"
@@ -34,11 +36,20 @@ public class LanguageCodeConverter {
             List<String> lines = Files.readAllLines(Paths.get(getClass()
                     .getClassLoader().getResource(filename).toURI()));
 
-            // TODO Task: use lines to populate the instance variable
-            //           tip: you might find it convenient to create an iterator using lines.iterator()
-
-        // TODO Checkstyle: '}' on next line should be alone on a line.
-        } catch (IOException | URISyntaxException ex) {
+            // use lines to populate the instance variable
+            // tip: you might find it convenient to create an iterator using lines.iterator()
+            this.jsonArray = new JSONArray();
+            String[] headers = lines.get(0).split("\t");
+            for (int i = 1; i < lines.size(); i++) {
+                String[] values = lines.get(i).split("\t");
+                JSONObject obj = new JSONObject();
+                for (int j = 0; j < headers.length && j < values.length; j++) {
+                    obj.put(headers[j].trim(), values[j].trim());
+                }
+                jsonArray.put(obj);
+            }
+        }
+        catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -50,8 +61,15 @@ public class LanguageCodeConverter {
      * @return the name of the language corresponding to the code
      */
     public String fromLanguageCode(String code) {
-        // TODO Task: update this code to use your instance variable to return the correct value
-        return code;
+        // update this code to use your instance variable to return the correct value
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            JSONObject obj = jsonArray.getJSONObject(i);
+            if (code.equals(obj.getString("Code"))) {
+                return obj.getString("ISO Language Names");
+            }
+        }
+        return null;
     }
 
     /**
@@ -60,8 +78,14 @@ public class LanguageCodeConverter {
      * @return the 2-letter code of the language
      */
     public String fromLanguage(String language) {
-        // TODO Task: update this code to use your instance variable to return the correct value
-        return language;
+        // update this code to use your instance variable to return the correct value
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            if (language.equals(obj.getString("ISO Language Names"))) {
+                return obj.getString("Code");
+            }
+        }
+        return null;
     }
 
     /**
@@ -69,7 +93,7 @@ public class LanguageCodeConverter {
      * @return how many languages are included in this code converter.
      */
     public int getNumLanguages() {
-        // TODO Task: update this code to use your instance variable to return the correct value
-        return 0;
+        // update this code to use your instance variable to return the correct value
+        return jsonArray.length();
     }
 }
