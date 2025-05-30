@@ -40,7 +40,7 @@ public class LanguageCodeConverter {
             //           tip: you might find it convenient to create an iterator using lines.iterator()
             for (String line : lines) {
                 String[] split = line.split("\t");
-                if (split.length == 2 && !Objects.equals(split[0], "ISO Language Names ")) {
+                if (split.length == 2 && !split[0].contains("ISO")) {
                     code_to_name.put(split[1], split[0]);
                     name_to_code.put(split[0], split[1]);
                 }
